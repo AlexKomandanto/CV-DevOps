@@ -40,20 +40,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Copy SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        known_hosts: ${{ secrets.SERVER_IP }}
-
-    - name: List files in .ssh directory for debugging
-      run: |
-        echo "Listing files in the .ssh directory:"
-        ls -la ~/.ssh
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass
 
     - name: Deploy to server
+      env:
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
+        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
           docker pull komandanto666514/cv-devops:latest
           docker stop cv-devops-container || true
           docker rm cv-devops-container || true
