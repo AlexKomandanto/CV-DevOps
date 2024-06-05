@@ -17,6 +17,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: List files for debugging
+      run: |
+        echo "Listing files in the root directory:"
+        ls -la
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
