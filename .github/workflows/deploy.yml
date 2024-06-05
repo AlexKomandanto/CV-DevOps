@@ -46,6 +46,11 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.SERVER_IP }}
 
+    - name: List files in .ssh directory for debugging
+      run: |
+        echo "Listing files in the .ssh directory:"
+        ls -la ~/.ssh
+
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
