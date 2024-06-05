@@ -1,21 +1,17 @@
 name: CI/CD Pipeline
 
-# Определяет, когда запускать workflow
 on:
   push:
     branches:
       - main
 
-# Определяет jobs
 jobs:
   build:
-    # Указывает, что job будет выполняться на последней версии Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-    # Шаги для job build
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: List files for debugging
       run: |
@@ -33,15 +29,14 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t komandanto666514/CV-DevOps:latest .
-        docker push komandanto666514/CV-DevOps:latest
+        docker build -t komandanto666514/cv-devops:latest .
+        docker push komandanto666514/cv-devops:latest
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-    # Шаги для job deploy
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -54,8 +49,8 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull komandanto666514/CV-DevOps:latest
-          docker stop CV-DevOps || true
-          docker rm CV-DevOps || true
-          docker run -d --name CV-DevOps -p 80:80 komandanto666514/CV-DevOps:latest
+          docker pull komandanto666514/cv-devops:latest
+          docker stop cv-devops-container || true
+          docker rm cv-devops-container || true
+          docker run -d --name cv-devops-container -p 80:80 komandanto666514/cv-devops:latest
         EOF
