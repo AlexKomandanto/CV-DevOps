@@ -46,7 +46,7 @@ header{
     width: 180px;
     height: 200px;
     border-radius: 3%;
-    margin-left: 35px;
+    margin-left: 15px;
     margin-right: 20px;
 }
 
@@ -140,8 +140,7 @@ a:hover {
     .profile-photo {
         width: 100px;
         height: 120px;
-        margin-left: 15px;
-        margin-right: 10px;
+        margin: 5px 10px;
     }
 
     .content_conteiner {
@@ -159,17 +158,17 @@ a:hover {
 @media (max-width: 480px) {
     
     .header-text{
-        margin: 24px 50px 0 0;
+        margin: 24px 15px 0 0;
     }
 
     .header-text h1 {
-        font-size: 24px;
-        margin: 0px 75px;
+        font-size: 22px;
+        /* margin: 0px 75px; */
     }
 
     .header-text h2 {
         font-size: 20px;
-        margin: 7px 0px -3px 160px;
+        margin: 10px 0px 25px 140px;
     }
 
     .profile-photo {
@@ -177,6 +176,7 @@ a:hover {
         height: 100px;
         margin-left: 10px;
         margin-right: 5px;
+        margin-top: 5px;
     }
 
     .container_right {
