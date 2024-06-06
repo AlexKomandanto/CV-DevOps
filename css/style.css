@@ -3,7 +3,7 @@ body {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    margin: 0;
+    margin: 0, auto;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -114,4 +114,79 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+
+    body{
+        width: auto;
+    }
+
+    .header{
+        padding: 0;
+    }
+
+    .header-text h1 {
+        font-size: 28px;
+    }
+
+    .header-text h2 {
+        font-size: 24px;
+        margin: 9px 6px 3px 50px;
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 120px;
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .content_conteiner {
+        flex-direction: column;
+        width: auto;
+    }
+
+    .container_left {
+        margin-top: 0;
+        padding-top: 20px;
+        flex-basis: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .header-text{
+        margin: 24px 50px 0 0;
+    }
+
+    .header-text h1 {
+        font-size: 24px;
+    }
+
+    .header-text h2 {
+        font-size: 20px;
+        margin: 7px 0px -3px 160px;
+    }
+
+    .profile-photo {
+        width: 80px;
+        height: 100px;
+        margin-left: 10px;
+        margin-right: 5px;
+    }
+
+    .container_right {
+        padding: 10px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
+    }
 }
