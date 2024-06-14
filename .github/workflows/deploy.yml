@@ -41,9 +41,10 @@ jobs:
     - name: Deploy to server
       env:
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-        SSH_USER: ${{ secrets.SSH_USERNAME }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
       run: |
-        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@${{ secrets.SERVER_IP }} << 'EOF'
+        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP << 'EOF'
           sudo docker pull komandanto666514/cv-devops:latest
           sudo docker stop cv-devops-container || true
           sudo docker rm cv-devops-container || true
