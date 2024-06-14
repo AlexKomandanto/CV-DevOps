@@ -41,15 +41,16 @@ jobs:
     - name: Deploy to server
       env:
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        SSH_USER: ${{ secrets.SSH_USERNAME }}
       run: |
-        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull komandanto666514/cv-devops:latest
-          docker stop cv-devops-container || true
-          docker rm cv-devops-container || true
-          docker run -d --name cv-devops-container -p 80:80 -p 443:443 komandanto666514/cv-devops:latest
-          
-          docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/alexkomendantov.top /etc/letsencrypt/archive/alexkomendantov.top"
-          docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
-          docker exec -i cv-devops-container sh -c "chown -R root:root /var/www/certbot /etc/letsencrypt"
-          docker exec -i cv-devops-container sh -c "chmod -R 755 /var/www/certbot /etc/letsencrypt"
+        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@${{ secrets.SERVER_IP }} << 'EOF'
+          sudo docker pull komandanto666514/cv-devops:latest
+          sudo docker stop cv-devops-container || true
+          sudo docker rm cv-devops-container || true
+          sudo docker run -d --name cv-devops-container -p 80:80 -p 443:443 komandanto666514/cv-devops:latest
+
+          sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/alexkomendantov.top /etc/letsencrypt/archive/alexkomendantov.top"
+          sudo docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
+          sudo docker exec -i cv-devops-container sh -c "chown -R root:root /var/www/certbot /etc/letsencrypt"
+          sudo docker exec -i cv-devops-container sh -c "chmod -R 755 /var/www/certbot /etc/letsencrypt"
         EOF
