@@ -1,3 +1,0 @@
-mkdir -p certbot/conf/live/alexkomendantov.top
-mkdir -p certbot/conf/archive/alexkomendantov.top
-mkdir -p certbot/conf/renewal
