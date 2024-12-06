@@ -3,64 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexei Komendantov - CV</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Alexei Komendantov - DevOps Engineer</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <section class="header">
-        <header>
-            <img src="images/avaBW.png" alt="Profile Photo" class="profile-photo">
-            <div class="header-text">
-                <h1>Alexei Komendantov</h1>
-                <h2>DevOps</h2>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-content">
+                <span class="logo"></span>
+                <div class="nav-links">
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#experience" class="nav-link">Experience</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
             </div>
-        </header>
-    </section>
-    <section class="content_conteiner">
-        <div class="container_left">
-            <section class="summary">
-                <h3>Summary</h3>
-                <p>I am a DevOps Engineer, I bring a strong foundation in systems engineering and a passion for automating workflows and improving operational efficiencies. With a background in software development, I leverage my programming skills to script robust deployment pipelines and maintain scalable cloud infrastructure.
-                </p>
-            </section>
-            <section class="contact">
-                <h3>Contact Me</h3>
-                <p><img src="images/phone.png" alt="Phone Icon" class="icon"> Call me at: <a href="tel:+375 29 3917588">+375 29 3917588</a> </p>
-                <p><img src="images/gmail.png" alt="Email Icon" class="icon"> <a href="mailto:aleexkomendantov@gmail.com">aleexkomendantov@gmail.com</a></p>
-                <p><img src="images/linkedin.png" alt="LinkedIn Icon" class="icon"> <a href="https://www.linkedin.com">www.linkedin.com</a></p>
-            </section>      
+        </nav>
+    </header>
+
+    <section id="about" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-image">
+                    <img src="/images/photo_2024-11-18_10-34-00.jpg" 
+                         alt="Alexei Komendantov">
+                </div>
+                <div class="hero-text">
+                    <h1>Alexei Komendantov</h1>
+                    <p class="job-title">DevOps Engineer</p>
+                    <p class="description">
+                        Experienced DevOps Engineer with a strong foundation in systems engineering and a passion for automating workflows. Skilled in scripting robust deployment pipelines and maintaining scalable cloud infrastructure.
+                    </p>
+                    <div class="cta-button">
+                        <a href="/resume.pdf" class="btn">Download CV</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="container_right">
-            <section class="experience">
-                <h3>Experience</h3>
-                <p><strong>Freelance Self Employed</strong> (May 2023 - Mar 2024)</p>
-                <p><strong>SoftTech</strong> Sistem Administrator (Mar 2024 - Now)</p>
-            </section>
-            <section class="education">
-                <h3>Education</h3>
-                <p><strong>Full Stack Course at GeekBrains</strong> (Jun 2022 - Now)</p>
-                <p><strong>JavaScript/Frontend at The Rolling Scopes</strong> (June 2023 - Now)</p>
-            </section>
-            <section class="skills">
-                <h3>Skills</h3>
-                <ul>
-                    <li>- Infrastructure as Code (IaC) using tools like Terraform and Ansible</li>
-                    <li>- Containerization and orchestration with Docker and Kubernetes</li>
-                    <li>- Continuous Integration and Continuous Deployment (CI/CD) with Jenkins, GitLab, or similar platforms</li>
-                    <li>- Monitoring and logging with ELK Stack or Prometheus and Grafana</li>
-                    <li>- Bash scripting and systems automation</li>
-                    <li>- Proficient in managing SQL database</li>
-                    <li>- Strong foundation in cloud services (AWS, Azure, GCP)</li>
-                    <li>- Commitment to security best practices and compliance standards</li>
-                    <li>- Skilled in network administration and troubleshooting</li>
-                </ul>
-            </section>
-            <section class="languages">
+    </section>
+
+    <section id="experience" class="experience-section">
+        <div class="container">
+            <h2>Experience</h2>
+            <div class="experience-cards">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div>
+                            <h3>Freelance</h3>
+                            <p>Self Employed</p>
+                        </div>
+                        <span class="date">May 2023 - Mar 2024</span>
+                    </div>
+                </div>
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div>
+                            <h3>System Administrator</h3>
+                            <p>SoftTech</p>
+                        </div>
+                        <span class="date">Mar 2024 - Present</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2>Skills & Technologies</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Infrastructure & Cloud</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 95%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Database Management</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Cloud Services</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Security</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 88%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-skills">
+                <div class="tech-card">
+                    <h3>Infrastructure as Code</h3>
+                    <p>Terraform • Ansible • CloudFormation</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Containerization</h3>
+                    <p>Docker • Kubernetes • Docker Compose</p>
+                </div>
+                <div class="tech-card">
+                    <h3>CI/CD</h3>
+                    <p>Jenkins • GitLab CI • GitHub Actions</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Monitoring</h3>
+                    <p>ELK Stack • Prometheus • Grafana</p>
+                </div>
+            </div>
+
+            <div class="languages">
                 <h3>Languages</h3>
-                <p>Native Russian</p>
-                <p>English: B1</p>
-            </section>
+                <div class="language-grid">
+                    <div class="language-card">
+                        <span>Russian</span>
+                        <span>Native</span>
+                    </div>
+                    <div class="language-card">
+                        <span>English</span>
+                        <span>B1</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <div class="contact-grid">
+                <a href="tel:+375293917588" class="btn">+375 29 3917588</a>
+                <a href="mailto:aleexkomendantov@gmail.com" class="btn">Email Me</a>
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Alexei Komendantov. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
