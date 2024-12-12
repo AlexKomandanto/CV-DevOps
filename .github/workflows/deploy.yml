@@ -53,6 +53,11 @@ jobs:
           echo "Waiting for the container to be ready..."
           sleep 10  # Подождите некоторое время, чтобы контейнер полностью запустился
 
+          until [ "$(docker inspect -f {{.State.Running}} cv-devops-container)" == "true" ]; do
+            echo "Waiting for container to start..."
+            sleep 2
+          done
+
           echo "Setting up Certbot directories..."
           sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/alexkomendantov.top /etc/letsencrypt/archive/alexkomendantov.top"
           sudo docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
