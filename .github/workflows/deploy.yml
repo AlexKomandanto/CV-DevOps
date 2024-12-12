@@ -50,6 +50,9 @@ jobs:
             -p 80:80 -p 443:443 \
             komandanto666514/cv-devops:latest
 
+          echo "Waiting for the container to be ready..."
+          sleep 10  # Подождите некоторое время, чтобы контейнер полностью запустился
+
           echo "Setting up Certbot directories..."
           sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/alexkomendantov.top /etc/letsencrypt/archive/alexkomendantov.top"
           sudo docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
@@ -57,4 +60,3 @@ jobs:
           sudo docker exec -i cv-devops-container sh -c "chmod -R 755 /var/www/certbot /etc/letsencrypt"
         EOF
 
-        
