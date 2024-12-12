@@ -13,7 +13,7 @@ FROM nginx:alpine
 
 # Копируем файлы сайта в директорию, которую обслуживает Nginx
 COPY index.html /usr/share/nginx/html/
-COPY style.css /usr/share/nginx/html/
+COPY /css/style.css /usr/share/nginx/html/
 
 # Копируем конфигурацию Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
