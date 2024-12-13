@@ -29,7 +29,7 @@ jobs:
         push: true
         tags: komandanto666514/cv-devops:latest
 
-    - name: Login to server and deploy
+    - name: Deploy to server
       env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
@@ -40,48 +40,17 @@ jobs:
           echo "Pulling the latest Docker image..."
           sudo docker pull komandanto666514/cv-devops:latest
 
-          echo "Stopping and removing the existing container..."
-          sudo docker stop cv-devops-container || true
-          sudo docker rm cv-devops-container || true
+          echo "Stopping and removing the existing containers..."
+          sudo docker-compose down || true
 
-                    echo "Starting the new container..."
-          sudo docker run -d \
-            --name cv-devops-container \
-            -p 80:80 -p 443:443 \
-            -v /etc/letsencrypt:/etc/letsencrypt \
-            -v /var/www/certbot:/var/www/certbot \
-            komandanto666514/cv-devops:latest
+          echo "Starting the new containers..."
+          sudo docker-compose up -d nginx certbot
 
-          echo "Setting up and running Certbot..."
-          sudo docker exec -i cv-devops-container certbot certonly --webroot \
-            --webroot-path=/var/www/certbot \
-            --email aleexkomendantov@gmail.com \
-            --agree-tos --no-eff-email \
-            -d алексейкомендантов.ком.рф -d www.алексейкомендантов.ком.рф
+          echo "Running Certbot for initial certificate issuance..."
+          sudo docker-compose run --rm certbot-init
 
           echo "Reloading Nginx..."
-          sudo docker exec -i cv-devops-container nginx -s reload
-
-          # echo "Starting the new container..."
-          # sudo docker run -d \
-          #   --name cv-devops-container \
-          #   -p 80:80 -p 443:443 \
-          #   komandanto666514/cv-devops:latest
-
-          
-
-          echo "Waiting for the container to be ready..."
-          sleep 10  # Подождите некоторое время, чтобы контейнер полностью запустился
-
-          # until [ "$(docker inspect -f {{.State.Running}} cv-devops-container)" == "true" ]; do
-          #   echo "Waiting for container to start..."
-          #   sleep 2
-          # done
-
-          # echo "Setting up Certbot directories..."
-          # sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai /etc/letsencrypt/archive/xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai"
-          # sudo docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
-          # sudo docker exec -i cv-devops-container sh -c "chown -R root:root /var/www/certbot /etc/letsencrypt"
-          # sudo docker exec -i cv-devops-container sh -c "chmod -R 755 /var/www/certbot /etc/letsencrypt"
+          sudo docker exec nginx nginx -s reload
         EOF
 
+        
