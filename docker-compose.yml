@@ -38,7 +38,7 @@ jobs:
         echo "Connecting to server..."
         sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP <<EOF
           echo "Navigating to project directory..."
-          cd /path/to/your/project
+          cd /root/cv-devops
 
           echo "Pulling the latest Docker image..."
           sudo docker pull komandanto666514/cv-devops:latest
