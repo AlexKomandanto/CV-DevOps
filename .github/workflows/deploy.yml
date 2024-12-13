@@ -57,7 +57,7 @@ jobs:
             --webroot-path=/var/www/certbot \
             --email aleexkomendantov@gmail.com \
             --agree-tos --no-eff-email \
-            -d алексейкомендантов.ком.рф -d www.алексейкомендантов.ком.рф
+            -d xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai -d www.xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai
 
           echo "Reloading Nginx..."
           sudo docker exec -i cv-devops-container nginx -s reload
@@ -79,7 +79,7 @@ jobs:
           # done
 
           # echo "Setting up Certbot directories..."
-          # sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/alexkomendantov.top /etc/letsencrypt/archive/alexkomendantov.top"
+          # sudo docker exec -i cv-devops-container sh -c "mkdir -p /var/www/certbot /etc/letsencrypt/live/xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai /etc/letsencrypt/archive/xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai"
           # sudo docker exec -i cv-devops-container sh -c "touch /etc/letsencrypt/options-ssl-nginx.conf /etc/letsencrypt/ssl-dhparams.pem"
           # sudo docker exec -i cv-devops-container sh -c "chown -R root:root /var/www/certbot /etc/letsencrypt"
           # sudo docker exec -i cv-devops-container sh -c "chmod -R 755 /var/www/certbot /etc/letsencrypt"

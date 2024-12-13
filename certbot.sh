@@ -7,4 +7,4 @@ fi
 
 certbot certonly --webroot --webroot-path=/var/www/certbot \
   --email aleexkomendantov@gmail.com --agree-tos --no-eff-email \
-  -d алексейкомендантов.ком.рф -d www.алексейкомендантов.ком.рф
+  -d xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai -d www.xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai
