@@ -1,30 +1,62 @@
-version: '3.8'
+name: Deploy to Server
 
-services:
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    restart: always
+on:
+  push:
+    branches:
+      - main
 
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-  certbot-init:
-    image: certbot/certbot
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'certbot certonly --webroot --webroot-path=/var/www/certbot --email aleexkomendantov@gmail.com --agree-tos --no-eff-email -d алексейкомендантов.ком.рф -d www.алексейкомендантов.ком.рф'"
-    depends_on:
-      - nginx
-      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: komandanto666514/cv-devops:latest
+
+    - name: Login to server and deploy
+      env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+      run: |
+        echo "Connecting to server..."
+        sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP <<EOF
+          echo "Navigating to project directory..."
+          cd /path/to/your/project
+
+          echo "Pulling the latest Docker image..."
+          sudo docker pull komandanto666514/cv-devops:latest
+
+          echo "Stopping and removing the existing containers..."
+          sudo docker-compose down || true
+
+          echo "Starting the new containers..."
+          sudo docker-compose up -d nginx certbot
+
+          echo "Running Certbot for initial certificate issuance..."
+          sudo docker-compose run --rm certbot-init
+
+          echo "Checking if Nginx is running..."
+          if sudo docker ps | grep nginx; then
+            echo "Reloading Nginx..."
+            sudo docker exec $(sudo docker ps -qf "name=nginx") nginx -s reload
+          else
+            echo "Nginx is not running. Please check the logs for errors."
+          fi
+        EOF
