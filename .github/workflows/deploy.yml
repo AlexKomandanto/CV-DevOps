@@ -44,11 +44,31 @@ jobs:
           sudo docker stop cv-devops-container || true
           sudo docker rm cv-devops-container || true
 
+                    echo "Starting the new container..."
+          sudo docker run -d \
+            --name cv-devops-container \
+            -p 80:80 -p 443:443 \
+            -v /etc/letsencrypt:/etc/letsencrypt \
+            -v /var/www/certbot:/var/www/certbot \
+            komandanto666514/cv-devops:latest
+
+          echo "Setting up and running Certbot..."
+          sudo docker exec -i cv-devops-container certbot certonly --webroot \
+            --webroot-path=/var/www/certbot \
+            --email aleexkomendantov@gmail.com \
+            --agree-tos --no-eff-email \
+            -d алексейкомендантов.ком.рф -d www.алексейкомендантов.ком.рф
+
+          echo "Reloading Nginx..."
+          sudo docker exec -i cv-devops-container nginx -s reload
+
           # echo "Starting the new container..."
           # sudo docker run -d \
           #   --name cv-devops-container \
           #   -p 80:80 -p 443:443 \
           #   komandanto666514/cv-devops:latest
+
+          
 
           echo "Waiting for the container to be ready..."
           sleep 10  # Подождите некоторое время, чтобы контейнер полностью запустился
