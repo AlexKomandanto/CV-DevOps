@@ -25,7 +25,7 @@ EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]
 
 # Установка Certbot и зависимостей
-RUN apt-get update && apt-get install -y certbot python3-certbot-nginx && apt-get clean
+RUN apk add --no-cache certbot certbot-nginx
 
 # Создание директорий для Certbot
 RUN mkdir -p /var/www/certbot /etc/letsencrypt
