@@ -1,35 +1,15 @@
-# FROM nginx:alpine
+FROM debian:latest
 
-# RUN apk add --no-cache certbot bash certbot-nginx
+# Установка Nginx, Certbot и зависимостей
+RUN apt-get update && apt-get install -y nginx certbot python3-certbot-nginx && apt-get clean
 
-# COPY nginx.conf /etc/nginx/nginx.conf
-# COPY certbot.sh /usr/local/bin/certbot.sh
-# RUN chmod +x /usr/local/bin/certbot.sh
-
-# CMD ["bash", "-c", "/usr/local/bin/certbot.sh && nginx -g 'daemon off;'"]
-
-# Используем официальный образ Nginx
-FROM nginx:alpine
-
-# Копируем файлы сайта в директорию, которую обслуживает Nginx
+# Остальная конфигурация остается неизменной
 COPY index.html /usr/share/nginx/html/
 COPY /css/style.css /usr/share/nginx/html/
-
-# Копируем конфигурацию Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Экспонируем порты 80 и 443
-EXPOSE 80 443
-
-# Запускаем Nginx
-CMD ["nginx", "-g", "daemon off;"]
-
-# Установка Certbot и зависимостей
-RUN apk add --no-cache certbot certbot-nginx
+COPY nginx.conf /etc/nginx/sites-enabled/default
 
 # Создание директорий для Certbot
 RUN mkdir -p /var/www/certbot /etc/letsencrypt
 
-# Рабочая директория
-WORKDIR /var/www/certbot
+WORKDIR /usr/share/nginx/html
 
