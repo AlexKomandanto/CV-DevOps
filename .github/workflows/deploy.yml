@@ -96,11 +96,24 @@ jobs:
       run: |
         echo "Connecting to server..."
         sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP <<EOF
+          echo "Директория проекта:"
+          ls -la /root/cv-devops
+    
+          echo "Проверка Docker:"
+          docker --version
+          docker-compose --version
+    
+          echo "Запуск контейнеров..."
           cd /root/cv-devops
           docker-compose down || true
           docker-compose pull
           docker-compose up -d
+    
+          echo "Проверка запущенных контейнеров:"
+          docker ps
+    
+          echo "Перезагрузка Nginx..."
           docker exec nginx nginx -s reload
-        EOF
+         EOF
 
         
