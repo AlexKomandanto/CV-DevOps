@@ -39,23 +39,33 @@
 # # Запустить генерацию сертификата и Nginx
 # CMD /usr/local/bin/generate-cert.sh && nginx -g "daemon off;"
 
+# FROM nginx:alpine
+
+# # Установить OpenSSL для генерации самоподписного сертификата
+# RUN apk add --no-cache openssl
+
+# # Скопировать HTML-файлы и конфигурацию
+# COPY . /usr/share/nginx/html
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# # Генерация сертификата перед запуском Nginx
+# RUN mkdir -p /etc/letsencrypt/live/алексейкомендантов.ком.рф
+
+# CMD ["/bin/sh", "-c", "\
+#     if [ ! -f /etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem ]; then \
+#         echo 'Generating self-signed certificate...'; \
+#         openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+#         -keyout /etc/letsencrypt/live/алексейкомендантов.ком.рф/privkey.pem \
+#         -out /etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem \
+#         -subj '/C=RU/ST=Moscow/L=Moscow/O=Example/OU=IT Department/CN=алексейкомендантов.ком.рф'; \
+#     fi && nginx -g 'daemon off;'"]
+
 FROM nginx:alpine
-
-# Установить OpenSSL для генерации самоподписного сертификата
-RUN apk add --no-cache openssl
-
 # Скопировать HTML-файлы и конфигурацию
 COPY . /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Генерация сертификата перед запуском Nginx
-RUN mkdir -p /etc/letsencrypt/live/алексейкомендантов.ком.рф
+# Создать директорию для ACME-запросов Certbot
+RUN mkdir -p /var/www/certbot
 
-CMD ["/bin/sh", "-c", "\
-    if [ ! -f /etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem ]; then \
-        echo 'Generating self-signed certificate...'; \
-        openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout /etc/letsencrypt/live/алексейкомендантов.ком.рф/privkey.pem \
-        -out /etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem \
-        -subj '/C=RU/ST=Moscow/L=Moscow/O=Example/OU=IT Department/CN=алексейкомендантов.ком.рф'; \
-    fi && nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]
