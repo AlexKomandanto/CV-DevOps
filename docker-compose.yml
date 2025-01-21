@@ -77,14 +77,19 @@ services:
     networks:
       - app-network
     depends_on:
-      - certbot
-
+      certbot:
+        condition: service_healthy
   certbot:
     image: certbot/certbot
     container_name: certbot
     volumes:
       - certbot-data:/etc/letsencrypt
       - ./var/www/certbot:/var/www/certbot
+    healthcheck:
+      test: ["CMD", "ls", "/etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     command: certonly --webroot -w /var/www/certbot --email aleexkomendantov@gmail.com --agree-tos --no-eff-email -d алексейкомендантов.ком.рф
 
 networks:

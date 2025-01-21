@@ -52,6 +52,7 @@ jobs:
           docker-compose down || true
           docker-compose pull
           docker-compose up -d
+          sleep 15
           docker exec nginx nginx -s reload
         EOF
-        
+
