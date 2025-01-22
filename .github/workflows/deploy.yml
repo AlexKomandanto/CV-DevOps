@@ -49,7 +49,7 @@ jobs:
         sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP <<'EOF'
           mkdir -p /root/cv-devops
           cd /root/cv-devops
-          docker-compose down || true
+          docker-compose down --remove-orphans || true  # Удаляет старые контейнеры
           docker-compose pull
           docker-compose up -d
           sleep 15

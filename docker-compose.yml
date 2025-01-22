@@ -1,65 +1,3 @@
-# name: Deploy to Server
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v2
-
-#     - name: Set up Docker Buildx
-#       uses: docker/setup-buildx-action@v1
-
-#     - name: Login to DockerHub
-#       uses: docker/login-action@v1
-#       with:
-#         username: ${{ secrets.DOCKER_USERNAME }}
-#         password: ${{ secrets.DOCKER_PASSWORD }}
-
-#     - name: Build and push Docker image
-#       uses: docker/build-push-action@v2
-#       with:
-#         context: .
-#         push: true
-#         tags: komandanto666514/cv-devops:latest
-
-#     - name: Login to server and deploy
-#       env:
-#           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-#           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-#           SERVER_IP: ${{ secrets.SERVER_IP }}
-#       run: |
-#         echo "Connecting to server..."
-#         sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SERVER_IP <<EOF
-#           echo "Navigating to project directory..."
-#           cd /root/cv-devops
-
-#           echo "Pulling the latest Docker image..."
-#           sudo docker pull komandanto666514/cv-devops:latest
-
-#           echo "Stopping and removing the existing containers..."
-#           sudo docker-compose down || true
-
-#           echo "Starting the new containers..."
-#           sudo docker-compose up -d nginx certbot
-
-#           echo "Running Certbot for initial certificate issuance..."
-#           sudo docker-compose run --rm certbot-init
-
-#           echo "Checking if Nginx is running..."
-#           if sudo docker ps | grep nginx; then
-#             echo "Reloading Nginx..."
-#             sudo docker exec $(sudo docker ps -qf "name=nginx") nginx -s reload
-#           else
-#             echo "Nginx is not running. Please check the logs for errors."
-#           fi
-#         EOF
 version: '3.8'
 
 services:
@@ -78,19 +16,20 @@ services:
       - app-network
     depends_on:
       certbot:
-        condition: service_healthy
+        condition: service_completed_successfully
+
   certbot:
     image: certbot/certbot
     container_name: certbot
     volumes:
       - certbot-data:/etc/letsencrypt
       - ./var/www/certbot:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --email aleexkomendantov@gmail.com --agree-tos --no-eff-email -d xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai
     healthcheck:
-      test: ["CMD", "ls", "/etc/letsencrypt/live/алексейкомендантов.ком.рф/fullchain.pem"]
+      test: ["CMD", "ls", "/etc/letsencrypt/live/xn--80aaggeaa5ahcgrocjg4b2a.xn--j1aef.xn--p1ai/fullchain.pem"]
       interval: 10s
       timeout: 5s
       retries: 3
-    command: certonly --webroot -w /var/www/certbot --email aleexkomendantov@gmail.com --agree-tos --no-eff-email -d алексейкомендантов.ком.рф
 
 networks:
   app-network:
@@ -98,3 +37,4 @@ networks:
 
 volumes:
   certbot-data:
+  
